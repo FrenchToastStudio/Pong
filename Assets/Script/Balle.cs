@@ -1,0 +1,43 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Balle : MonoBehaviour
+{
+	public double speed = 0.002;
+	public double dificulte;
+    // Start is called before the first frame update
+    	void Start(){
+		GetComponent<Rigidbody2D>().velocity = Vector2.right * (float)speed;
+    	}
+
+    // Update is called once per frame
+	void Update(){
+		
+	}
+
+	void OnCollisionEnter2D(Collision2D col) {
+		if(col.gameObject.name == "JoueurDroite"){
+			float y =balleFrappe(transform.position, col.transform.position, col.collider.bounds.size.y);
+			speed += speed * dificulte;
+
+			Vector2 direction = new Vector2(1, y).normalized;
+			GetComponent<Rigidbody2D>().velocity = direction * (float)speed;
+		}
+		if(col.gameObject.name == "JoueurGauche"){
+			speed += speed * dificulte;
+
+			float y =balleFrappe(transform.position, col.transform.position, col.collider.bounds.size.y);
+			Vector2 direction = new Vector2(2, y).normalized;		
+			GetComponent<Rigidbody2D>().velocity = direction * (float)speed;
+		} 
+	}
+
+	//calcule de la directiona envoyer la balle
+	float balleFrappe(Vector2 positionBalle, Vector2 positonRaquette, float tailleRaquette) {
+    		
+    		return (positionBalle.y - positonRaquette.y) / tailleRaquette;	
+	}
+
+ 
+}
