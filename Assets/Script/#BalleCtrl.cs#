@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Balle : MonoBehaviour
+public class BalleCtrl : MonoBehaviour
 {
 	public double speed = 0.002;
 	public double dificulte;
