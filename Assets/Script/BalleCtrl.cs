@@ -80,28 +80,11 @@ public class BalleCtrl : MonoBehaviour
 
          //renvoie la balle si elle sort du terrain
          if(col.gameObject.name == "GoalRight"){
-             Vector2 position = this.transform.position;
-             bouge = false;
-             position.y = 0;
-             position.x = 0;
-             directionY = 0;
-             directionX = 0.05f;
-             speed = 0.005f;
-             difficulte = 0.0005f;
-             angleRebondMax = 0.75f;
-             this.transform.position = position;
+             resetBalle();
          }
          if(col.gameObject.name == "GoalLeft"){
-             Vector2 position = this.transform.position;
-             bouge = false;
-             position.y = 0;
-             position.x = 0;
-             directionY = 0;
-             directionX = -0.05f;
-             speed = 0.005f;
-             difficulte = 0.0005f;
-             angleRebondMax = 0.75f;
-             this.transform.position = position;
+             resetBalle();
+             directionX = -directionX;
          }
 
      }
@@ -112,5 +95,19 @@ public class BalleCtrl : MonoBehaviour
 
    float balleRenvoyer(Vector2 positionBalle, Vector2 positionRaquette, float tailleRaquette){
        return (positionBalle.y - positionRaquette.y)/2 * angleRebondMax;
+   }
+
+   //Reset la balle au centre
+   void resetBalle(){
+       Vector2 position = this.transform.position;
+       bouge = false;
+       position.y = 0;
+       position.x = 0;
+       directionY = 0;
+       directionX = 0.05f;
+       speed = 0.005f;
+       difficulte = 0.0005f;
+       angleRebondMax = 0.75f;
+       this.transform.position = position;
    }
 }

@@ -558,7 +558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa8713b9351b1061908f16a6163cd0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  joueur: PointJoueurDroite
+  joueur: /PointJoueurGauche
 --- !u!61 &1128437611
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1023,7 +1023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa8713b9351b1061908f16a6163cd0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  joueur: /PointJoueurGauche
+  joueur: 2/PointJoueurDroite
 --- !u!1001 &2412932344981990865
 PrefabInstance:
   m_ObjectHideFlags: 0
