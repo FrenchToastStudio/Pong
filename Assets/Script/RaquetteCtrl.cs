@@ -7,40 +7,44 @@ public class RaquetteCtrl : MonoBehaviour
 	public string axis = "Vertical";
 	private float speed = 0.25f;
 	private bool bouge = true;
-	private bool borderTouche;
+	private float maxY;
+	private float minY;
+	private float tailleRaquette;
+
    	 // Start is called before the first frame update
    	 void Start()
    	 {
+		 GameObject border;
+		 Vector2 positionBorder;
+		 tailleRaquette = GetComponent<Collider2D>().bounds.size.y;
+
+		 //positon y de la bordure du haut
+		 border = GameObject.Find("BorderUp");
+		 positionBorder = border.transform.position;
+		 maxY = positionBorder.y - border.GetComponent<Collider2D>().bounds.size.y/2;
+
+		 //position y de la bordure du bas;
+		 border = GameObject.Find("BorderDown");
+		 positionBorder = border.transform.position;
+		 minY = positionBorder.y + border.GetComponent<Collider2D>().bounds.size.y/2;
 		}
 
    	 // Update is called once per frame
    	 void Update(){
+		 Vector2 position = this.transform.position;
+		 float hautRaquette = position.y +  tailleRaquette/2;
+		 float basRaquette = position.y -  tailleRaquette/2;
 
-		 if(borderTouche == false && Input.GetAxisRaw(axis) < 0){
-			 speed = 0.25f;
-			 borderTouche = true;
-		 } if(borderTouche == true && Input.GetAxisRaw(axis) > 0){
-			 speed = 0.25f;
-			 borderTouche = false;
+		 //verifie si la raquette touche le haut
+		 if(hautRaquette >= maxY){
+			 position.y = maxY - tailleRaquette/2;
+		 }
+		 if (basRaquette <= minY) {
+			 position.y = minY + tailleRaquette/2;
 		 }
 
-
-			Vector2 position = this.transform.position;
 	    	position.y += Input.GetAxisRaw(axis) * speed;
 	    	this.transform.position = position;
-		//  GetComponent<Rigidbody2D>().velocity = new Vector2(0, moveVertical) * speed;
-	}
-
-	void OnTriggerEnter2D(Collider2D col){
-
-		//arrete la raquette si elle touche les bordures
-		if(col.gameObject.name == "BorderUp"){
-			speed = 0;
-			borderTouche = false;
-		} else if(col.gameObject.name == "BorderDown"){
-			speed = 0;
-			borderTouche = true;
-		}
 	}
 
 }

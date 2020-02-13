@@ -2,18 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class BalleCtrl : MonoBehaviour
 {
-    public float speed = 0.005f;
+    public float speed = 5f;
     private bool bouge = false;
-    private float difficulte = 0.00005f;
+    private float difficulte = 0.5f;
     private float angleRebondMax= 0.75f;
     private float directionY = 0f;
-    private float directionX = 0.05f;
-
+    private float directionX = 0.1f;
+    private Pointage pointJoueurs;
         // Start is called before the first frame update
         void Start(){
 
+            pointJoueurs = new Pointage();
+
+            float nombreGenere = Random.Range(0f, 1f);
+            if(nombreGenere > 0.5f){
+            Debug.Log(nombreGenere);
+                directionX = -directionX;
+            }
         }
 
     // Update is called once per frame
@@ -23,10 +31,12 @@ public class BalleCtrl : MonoBehaviour
         if(Input.GetKey(KeyCode.Space)){
             bouge = true;
         }
-
         //Reajuste la postione de la balle a chaque FPS
         Vector2 position = this.transform.position;
         if (bouge){
+
+            //genere aleatoirement un cnhifre qui decide quelle joeur commence si
+            //si la partie n'a pas encore commencer
 
             position.x += directionX;
             position.y += directionY * directionX;
@@ -36,6 +46,7 @@ public class BalleCtrl : MonoBehaviour
             Debug.Log("direction X : " + directionX);
             Debug.Log("difficulte : " + difficulte);
         }
+
     }
 
     void OnTriggerEnter2D(Collider2D col){
@@ -78,11 +89,16 @@ public class BalleCtrl : MonoBehaviour
              directionY = -directionY;
          }
 
-         //renvoie la balle si elle sort du terrain
+         //ajoute les points au joueur de droite et renvoie la balle au joueur de gauche
          if(col.gameObject.name == "GoalRight"){
+             pointJoueurs.AjouterPointJoueurGauche();
+             GameObject.Find("Canvas/PointJoueurGauche").GetComponent<UnityEngine.UI.Text>().text = pointJoueurs.pointJoueurGauche.ToString();
              resetBalle();
          }
+         //ajoute les points au joeur de gauche et renvoie la balle au joueur de droite
          if(col.gameObject.name == "GoalLeft"){
+             pointJoueurs.AjouterPointJoueurDroite();
+             GameObject.Find("Canvas2/PointJoueurDroite").GetComponent<UnityEngine.UI.Text>().text = pointJoueurs.pointJoueurDroite.ToString();
              resetBalle();
              directionX = -directionX;
          }
@@ -94,7 +110,7 @@ public class BalleCtrl : MonoBehaviour
    //(si negatif il faut renvoyer par en bas vice-versa)
 
    float balleRenvoyer(Vector2 positionBalle, Vector2 positionRaquette, float tailleRaquette){
-       return (positionBalle.y - positionRaquette.y)/2 * angleRebondMax;
+       return (positionBalle.y - positionRaquette.y)/tailleRaquette * angleRebondMax;
    }
 
    //Reset la balle au centre
@@ -104,9 +120,9 @@ public class BalleCtrl : MonoBehaviour
        position.y = 0;
        position.x = 0;
        directionY = 0;
-       directionX = 0.05f;
-       speed = 0.005f;
-       difficulte = 0.0005f;
+       directionX = 0.1f;
+       speed = 0.05f;
+       difficulte = 0.5f;
        angleRebondMax = 0.75f;
        this.transform.position = position;
    }
